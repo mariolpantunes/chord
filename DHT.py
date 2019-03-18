@@ -34,5 +34,6 @@ def main(number_nodes):
     for node in dht:
         node.join()
 
+
 if __name__ == '__main__':
-    main(3)
+    main(5)

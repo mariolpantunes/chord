@@ -82,7 +82,7 @@ class DHT_Node(threading.Thread):
     def put(self, key, value, address):
         key_hash = dht_hash(key)
         self.logger.debug('Put: %s %s', key, key_hash)
-        if self.id < key_hash <= self.successor_id:
+        if contains_successor(self.id, self.successor_id, key_hash):
             self.keystore[key] = value
             self.send(address, {'method': 'ACK'})
         else:
@@ -93,7 +93,7 @@ class DHT_Node(threading.Thread):
     def get(self, key, address):
         key_hash = dht_hash(key)
         self.logger.debug('Get: %s %s', key, key_hash)
-        if self.id < key_hash <= self.successor_id:
+        if contains_successor(self.id, self.successor_id, key_hash):
             value = self.keystore[key]
             self.send(address, {'method': 'ACK', 'args': value})
         else:
